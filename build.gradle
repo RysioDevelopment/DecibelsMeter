@@ -25,9 +25,11 @@ allprojects {
 ext {
     //----dependencies versions-----
     //main dependencies
+    timberVersion = "4.5.1"
     daggerVersion = "2.11"
     rxAndroidVersion = "2.0.1"
     rxJavaVersion = "2.1.1"
+    jodaTimeVersion = "2.9.9"
 }
 
 task clean(type: Delete) {
