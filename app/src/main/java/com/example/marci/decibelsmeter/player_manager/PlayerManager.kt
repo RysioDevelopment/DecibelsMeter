@@ -42,11 +42,11 @@ class PlayerManager {
   private fun startPlaying(fileName: String) {
     mediaPlayer = MediaPlayer()
     try {
-      playerState = PlayerState.PLAY
       with(mediaPlayer!!) {
         setDataSource(fileName)
         prepare()
         start()
+        playerState = PlayerState.PLAY
       }
     } catch (e: IOException) {
       Timber.d(e.localizedMessage)
@@ -66,9 +66,9 @@ class PlayerManager {
 
   private fun stopPlaying() {
     if (playerState == PlayerState.PLAY) {
-      playerState = PlayerState.PAUSE
       mediaPlayer!!.release()
       mediaPlayer = null
+      playerState = PlayerState.PAUSE
     }
   }
 

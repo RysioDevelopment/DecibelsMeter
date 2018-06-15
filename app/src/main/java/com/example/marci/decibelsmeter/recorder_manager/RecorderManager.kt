@@ -24,6 +24,15 @@ class RecorderManager {
   private var timerDisposable: Disposable? = null
   private val timerPublishSubject = PublishSubject.create<Int>()
   private var timer = 0
+  private var baseValue = 6.0
+
+  fun incrementBaseValue() {
+    baseValue++
+  }
+
+  fun decrementBaseValue() {
+    baseValue--
+  }
 
   fun getRecorderStateName() = recorderState.name
 
@@ -82,7 +91,7 @@ class RecorderManager {
 //          return@map (mediaRecorder?.maxAmplitude ?: 0) / 1.0
 //          return@map 20 * Math.log10(Math.abs(mediaRecorder?.maxAmplitude!!).toDouble()!!) / 32767.0)
 //          return@map 20 * Math.log10((mediaRecorder?.maxAmplitude ?: 0).toDouble())
-          val decibels = 20 * Math.log10((mediaRecorder?.maxAmplitude ?: 0).toDouble() / 10.0)
+          val decibels = 20 * Math.log10((mediaRecorder?.maxAmplitude ?: 0).toDouble() / baseValue)
           return@map if (decibels < 0) {
             0.0
           } else {
