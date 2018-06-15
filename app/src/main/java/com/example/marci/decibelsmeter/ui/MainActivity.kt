@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
   public override fun onCreate(bundle: Bundle?) {
     super.onCreate(bundle)
     setContentView(R.layout.activity_main)
+    gaugeView.setShowRangeValues(true)
+    gaugeView.setTargetValue(0f)
     fileName = externalCacheDir.absolutePath
     fileName += "/audiorecordtest.3gp"
     setUpPlayerTimer()
@@ -30,11 +32,11 @@ class MainActivity : AppCompatActivity() {
     setUpRecorderTimer()
     setUpRecordButtonListener()
     setUpPlayButtonListener()
-    incrementBaseValueButton.setOnClickListener {
-      recorderManager.incrementBaseValue()
-    }
-    decrementBaseValueButton.setOnClickListener {
+    increaseDecibelsButton.setOnClickListener {
       recorderManager.decrementBaseValue()
+    }
+    lowerDecibelsButton.setOnClickListener {
+      recorderManager.incrementBaseValue()
     }
   }
 
@@ -73,7 +75,8 @@ class MainActivity : AppCompatActivity() {
     recorderManager.getAmplitudePublishSubject()
         .subscribe { decibels ->
           val dB = decibels.toInt()
-          decibelsTextView.text = getString(R.string.decibels, dB)
+//          decibelsTextView.text = getString(R.string.decibels, dB)
+          gaugeView.setTargetValue(dB.toFloat())
           when {
             dB < 10 -> {
               dBInterpretationTextView.text = getString(R.string.the_music_is_barely_audible)

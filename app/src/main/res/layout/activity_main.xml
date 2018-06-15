@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="40dp"
+        android:padding="20dp"
         android:text="@string/start_time"
-        android:textSize="48sp" />
+        android:textSize="32sp" />
 
     <TextView
         android:id="@+id/actionTextView"
@@ -23,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:padding="8dp"
-        android:textSize="24sp"
+        android:textSize="16sp"
         tools:text="recording" />
 
     <LinearLayout
@@ -53,25 +54,59 @@
             android:src="@color/play_button_selector" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/decibelsTextView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/actionButtonsLayout"
-        android:layout_centerHorizontal="true"
-        android:textSize="24sp"
-        tools:text="55 [dB]" />
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dBInterpretationTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/decibelsTextView"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        tools:text="Perfect distance!" />
+        <com.ntt.customgaugeview.library.GaugeView
+            android:id="@+id/gaugeView"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:divisions="8"
+            app:innerCircleColor="@color/colorLightBlue"
+            app:outerCircleColor="@color/colorRed"
+            app:rangeValues="@array/decibelsRangeValues"
+            app:scaleEndValue="100"
+            app:showInnerRim="false"
+            app:showNeedle="true"
+            app:showOuterBorder="false"
+            app:showOuterRim="true"
+            app:showOuterShadow="false"
+            app:showRangeText="true"
+            app:showRanges="true"
+            app:textUnitColor="@color/colorPrimaryDark"
+            app:showScale="true"
+            app:subdivisions="1"
+            app:textUnit="[dB]"
+            app:textUnitSize="0.06"
+            app:textValueSize="0.15" />
+        <!--
+            <TextView
+                android:id="@+id/decibelsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/actionButtonsLayout"
+                android:layout_centerHorizontal="true"
+                android:textSize="24sp"
+                tools:text="55 [dB]" />-->
+
+        <TextView
+            android:id="@+id/dBInterpretationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gaugeView"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            tools:text="Perfect distance!" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -87,7 +122,7 @@
             android:text="optimize" />
 
         <ImageButton
-            android:id="@+id/incrementBaseValueButton"
+            android:id="@+id/increaseDecibelsButton"
             style="@style/OptionButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
@@ -96,7 +131,7 @@
             android:src="@drawable/ic_add" />
 
         <ImageButton
-            android:id="@+id/decrementBaseValueButton"
+            android:id="@+id/lowerDecibelsButton"
             style="@style/OptionButtonTheme"
             android:layout_width="wrap_content"
             android:layout_height="1dp"

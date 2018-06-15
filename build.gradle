@@ -19,6 +19,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -30,6 +31,7 @@ ext {
     rxAndroidVersion = "2.0.1"
     rxJavaVersion = "2.1.1"
     jodaTimeVersion = "2.9.9"
+    gaugeVersion = "1.0"
 }
 
 task clean(type: Delete) {
