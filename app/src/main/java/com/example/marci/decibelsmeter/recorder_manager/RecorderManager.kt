@@ -1,5 +1,6 @@
 package com.example.marci.decibelsmeter.recorder_manager
 
+import android.Manifest
 import android.media.MediaRecorder
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -10,6 +11,10 @@ import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import android.Manifest.permission
+import android.Manifest.permission.RECORD_AUDIO
+
+
 
 /**
  ** Created by marci on 2018-06-13.
@@ -18,7 +23,6 @@ class RecorderManager {
 
   private var mediaRecorder: MediaRecorder? = null
   private var recorderState = RecorderState.STOP
-  private var disposables: CompositeDisposable? = null
   private var amplitudeDisposable: Disposable? = null
   private val amplitudePublishSubject = PublishSubject.create<Double>()
   private var timerDisposable: Disposable? = null

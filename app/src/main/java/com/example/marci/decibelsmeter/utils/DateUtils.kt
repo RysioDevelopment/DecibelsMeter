@@ -9,12 +9,12 @@ import java.util.*
  */
 object DateUtils {
 
-  const val TIME_PATTERN = "HH:mm:ss"
-  const val REFERENCE_TIME = "00:00:00"
+  const val TIME_PATTERN = "mm:ss"
+  const val REFERENCE_TIME = "00:00"
   private val formatter = SimpleDateFormat(TIME_PATTERN, Locale.getDefault())
 
   fun stringTimeToSeconds(time: String): Long {
-    return (formatter.parse(time).time - formatter.parse("00:00:00").time) / 1000L
+    return (formatter.parse(time).time - formatter.parse("00:00").time) / 1000L
   }
 
   fun secondsToTimeString(seconds: Int): String {

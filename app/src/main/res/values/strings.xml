@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">DecibelsMeter</string>
-    <string name="start_time">00:00:00</string>
+    <string name="start_time">00:00</string>
     <string name="the_music_is_barely_audible">The music is barely audible</string>
     <string name="the_music_is_quiet">The music is quiet</string>
     <string name="the_music_is_perfectly_audible">The music is perfectly audible!</string>
