@@ -1,19 +1,15 @@
 package com.example.marci.decibelsmeter.recorder_manager
 
-import android.Manifest
 import android.media.MediaRecorder
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
+import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import android.Manifest.permission
-import android.Manifest.permission.RECORD_AUDIO
-
 
 
 /**
@@ -129,5 +125,11 @@ class RecorderManager {
       mediaRecorder?.release()
       mediaRecorder = null
     }
+  }
+
+  fun stopAndDelete(fileName: String) {
+    stopRecording()
+    val file = File(fileName)
+    file.delete()
   }
 }

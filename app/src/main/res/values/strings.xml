@@ -5,7 +5,18 @@
     <string name="the_music_is_quiet">The music is quiet</string>
     <string name="the_music_is_perfectly_audible">The music is perfectly audible!</string>
     <string name="the_music_is_loud">The music is loud!</string>
-    <string name="decibels">%d decibels</string>
     <string name="the_music_is_too_loud">The music is too loud!\nRun away!!!</string>
-
+    <string name="save">Save</string>
+    <string name="left_speaker">Left Speaker</string>
+    <string name="record_name">Record name:</string>
+    <string name="right_speaker">Right speaker</string>
+    <string name="left_speaker_shortcut">LS</string>
+    <string name="right_speaker_shortcut">RS</string>
+    <string name="recording">recording</string>
+    <string name="player">player</string>
+    <string name="well_set_speakers">Well set loudspeakers</string>
+    <string name="decibels">%d [dB]</string>
+    <string name="missing_recording">Missing recording</string>
+    <string name="start_decibels_value">0 [dB]</string>
+    <string name="remove">remove</string>
 </resources>

@@ -26,6 +26,7 @@ allprojects {
 ext {
     //----dependencies versions-----
     //main dependencies
+    android_support_version = "26.1.0"
     timberVersion = "4.5.1"
     daggerVersion = "2.11"
     rxAndroidVersion = "2.0.1"
