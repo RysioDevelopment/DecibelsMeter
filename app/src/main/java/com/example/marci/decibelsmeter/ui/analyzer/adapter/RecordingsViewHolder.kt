@@ -17,6 +17,7 @@ class RecordingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
   fun bind(record: RecordViewModel, playerManager: PlayerManager) {
     with(itemView) {
+      var fileName = context.externalCacheDir.absolutePath
       recordMainNameTextView.text = record.mainRecordName
       leftSpeakerDecibelsTextView.text = context.getString(
           R.string.decibels,
@@ -29,7 +30,8 @@ class RecordingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
       setUpSpeakersStatementTextView.text = record.getStatement()
       leftPlayButton.setOnClickListener {
         if (!rightPlayButton.isSelected) {
-          playerManager.onPlay(record.mainRecordName + context.getString(R.string.left_speaker_shortcut))
+          fileName += "/${record.mainRecordName}${context.getString(R.string.left_speaker_shortcut)}.3gp"
+          playerManager.onPlay(fileName)
           it.isSelected = !it.isSelected
         } else {
           Toast.makeText(itemView.context, "Firstly stop other playing!", Toast.LENGTH_SHORT).show()
@@ -37,7 +39,8 @@ class RecordingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
       }
       rightPlayButton.setOnClickListener {
         if (!leftPlayButton.isSelected) {
-          playerManager.onPlay(record.mainRecordName + context.getString(R.string.right_speaker_shortcut))
+          fileName += "/${record.mainRecordName}${context.getString(R.string.right_speaker_shortcut)}.3gp"
+          playerManager.onPlay(fileName)
           it.isSelected = !it.isSelected
         } else {
           Toast.makeText(itemView.context, "Firstly stop other playing!", Toast.LENGTH_SHORT).show()

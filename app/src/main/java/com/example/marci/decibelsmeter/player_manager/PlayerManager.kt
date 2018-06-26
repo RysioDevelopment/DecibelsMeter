@@ -27,14 +27,14 @@ class PlayerManager {
   fun onPlay(fileName: String) {
     if (playerState == PlayerState.PAUSE) {
       startPlaying(fileName)
-      timerDisposable = ticks()
+    /*  timerDisposable = ticks()
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe { ticks ->
             ticksPublishSubject.onNext(ticks)
-          }
+          }*/
     } else {
-      timerDisposable?.dispose()
+//      timerDisposable?.dispose()
       stopPlaying()
     }
   }
