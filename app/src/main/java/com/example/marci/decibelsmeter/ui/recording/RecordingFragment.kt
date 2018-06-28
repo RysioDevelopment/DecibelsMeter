@@ -11,11 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.Toast
 import com.example.marci.decibelsmeter.R
-import com.example.marci.decibelsmeter.player_manager.PlayerManager
 import com.example.marci.decibelsmeter.recorder_manager.RecorderManager
+import com.example.marci.decibelsmeter.recorder_manager.RecorderState
 import com.example.marci.decibelsmeter.shared_prefs.PrefsManager
 import com.example.marci.decibelsmeter.utils.DateUtils
 import io.reactivex.disposables.CompositeDisposable
@@ -56,25 +55,21 @@ class RecordingFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     ActivityCompat.requestPermissions(activity, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
     prefsManager = PrefsManager(activity.application)
-    recordNameEditText.text = Editable.Factory.getInstance().newEditable(DateTime.now().toString())
-    setUpLeftSpeakerRecordingLayout()
-    setUpRightSpeakerRecordingLayout()
+    recordNameEditText.text = Editable.Factory.getInstance().newEditable(DateTime.now().toString().replace(":", "_"))
     gaugeView.setShowRangeValues(true)
     decibelsTextView.visibility = View.GONE
-//    setUpPlayerTimer()
+    setUpLeftSpeakerRecordingLayout()
+    setUpRightSpeakerRecordingLayout()
     setUpDecibelsMeter()
     setUpRecorderTimer()
-//    setUpPlayButtonListener()
     setUpOptimizeButtons()
   }
 
   private fun setUpLeftSpeakerRecordingLayout() {
     leftRecordingLayout.speakerTextView.text = getString(R.string.left_speaker)
-//    setUpRecordButtonListener(leftRecordingLayout.recordingButton, leftRecordingLayout.saveButton, getString(R.string.left_speaker_shortcut))
     leftRecordingLayout.recordingButton.setOnClickListener {
-      //       if (!playButton.isSelected) {
       if (!rightRecordingLayout.recordingButton.isSelected) {
-        setUpLeftSaveButton(leftRecordingLayout.saveButton, getString(R.string.left_speaker_shortcut))
+        setUpRecordingButton(leftRecordingLayout.saveButton, getString(R.string.left_speaker_shortcut))
         it.isSelected = !it.isSelected
       } else {
         Toast.makeText(context, "Firstly stop recording other speaker", Toast.LENGTH_SHORT).show()
@@ -83,21 +78,11 @@ class RecordingFragment : Fragment() {
     setUpSaveButtonListener(leftRecordingLayout, getString(R.string.left_speaker_shortcut))
   }
 
-  private fun setUpLeftSaveButton(saveButton: Button, speaker: String) {
-    saveButton.isEnabled = true
-    fileName = activity.externalCacheDir.absolutePath
-    fileName += "/${recordNameEditText.text}$speaker.3gp"
-    recorderManager.onRecord(fileName)
-    actionTextView.text = recorderManager.getRecorderStateName()
-  }
-
   private fun setUpRightSpeakerRecordingLayout() {
     rightRecordingLayout.speakerTextView.text = getString(R.string.right_speaker)
-//    setUpRecordButtonListener(rightRecordingLayout.recordingButton, rightRecordingLayout.saveButton, getString(R.string.right_speaker_shortcut))
     rightRecordingLayout.recordingButton.setOnClickListener {
-      //       if (!playButton.isSelected) {
       if (!leftRecordingLayout.recordingButton.isSelected) {
-        setUpLeftSaveButton(rightRecordingLayout.saveButton, getString(R.string.right_speaker_shortcut))
+        setUpRecordingButton(rightRecordingLayout.saveButton, getString(R.string.right_speaker_shortcut))
         it.isSelected = !it.isSelected
       } else {
         Toast.makeText(context, "Firstly stop recording other speaker", Toast.LENGTH_SHORT).show()
@@ -106,15 +91,14 @@ class RecordingFragment : Fragment() {
     setUpSaveButtonListener(rightRecordingLayout, getString(R.string.right_speaker_shortcut))
   }
 
-
-  private fun setUpOptimizeButtons() {
-    increaseDecibelsButton.setOnClickListener {
-      recorderManager.decrementBaseValue()
-    }
-    lowerDecibelsButton.setOnClickListener {
-      recorderManager.incrementBaseValue()
-    }
+  private fun setUpRecordingButton(saveButton: Button, speaker: String) {
+    saveButton.isEnabled = true
+    fileName = activity.externalCacheDir.absolutePath
+    fileName += "/${recordNameEditText.text}$speaker.3gp"
+    recorderManager.onRecord(fileName)
+    actionTextView.text = recorderManager.getRecorderStateName()
   }
+
 
   private fun setUpSaveButtonListener(recordView: View, speaker: String) {
     recordView.saveButton.setOnClickListener {
@@ -123,7 +107,9 @@ class RecordingFragment : Fragment() {
         prefsManager.createPreferences(mainFileName).put(mainFileName + speaker, decibelsTextView.text)
         it.isEnabled = false
         recordView.recordingButton.isSelected = false
-        recorderManager.onRecord(mainFileName + speaker)
+        if (recorderManager.getRecorderStateName() == RecorderState.RECORDING.name) {
+          recorderManager.onRecord(mainFileName + speaker)
+        }
         timerTextView.text = getString(R.string.start_time)
         decibelsTextView.text = getString(R.string.start_decibels_value)
         Toast.makeText(activity.baseContext, "Saved sound", Toast.LENGTH_SHORT).show()
@@ -131,38 +117,6 @@ class RecordingFragment : Fragment() {
         Toast.makeText(activity.baseContext, "Firstly name your file", Toast.LENGTH_SHORT).show()
       }
     }
-  }
-
-  /*  private fun setUpPlayButtonListener() {
-      playButton.setOnClickListener {
-        if (!recordingButton.isSelected) {
-          playerManager.onPlay(fileName)
-          playButton.isSelected = !playButton.isSelected
-          actionTextView.text = playerManager.getPlayerStateName()
-        } else {
-          Toast.makeText(baseContext, "Firstly stop recording!", Toast.LENGTH_SHORT).show()
-        }
-      }
-    }*/
-
-  private fun setUpRecordButtonListener(recordButton: ImageButton, saveButton: Button, speaker: String) {
-    recordButton.setOnClickListener {
-      //       if (!playButton.isSelected) {
-      saveButton.isEnabled = true
-      fileName = activity.externalCacheDir.absolutePath
-      fileName += "/${recordNameEditText.text}$speaker.3gp"
-      recorderManager.onRecord(fileName)
-      recordButton.isSelected = !recordButton.isSelected
-      actionTextView.text = recorderManager.getRecorderStateName()
-    }
-  }
-
-  private fun setUpRecorderTimer() {
-    val disposable = recorderManager.getTimerPublishSubject()
-        .subscribe { ticks ->
-          timerTextView.text = DateUtils.secondsToTimeString((ticks))
-        }
-    disposables.add(disposable)
   }
 
   private fun setUpDecibelsMeter() {
@@ -197,13 +151,22 @@ class RecordingFragment : Fragment() {
     disposables.add(disposable)
   }
 
-/*  private fun setUpPlayerTimer() {
-    val disposable = playerManager.getTicksPublishSubject()
+  private fun setUpRecorderTimer() {
+    val disposable = recorderManager.getTimerPublishSubject()
         .subscribe { ticks ->
-          timerTextView.text = DateUtils.secondsToTimeString((ticks.first))
+          timerTextView.text = DateUtils.secondsToTimeString((ticks))
         }
     disposables.add(disposable)
-  }*/
+  }
+
+  private fun setUpOptimizeButtons() {
+    increaseDecibelsButton.setOnClickListener {
+      recorderManager.decrementBaseValue()
+    }
+    lowerDecibelsButton.setOnClickListener {
+      recorderManager.incrementBaseValue()
+    }
+  }
 
   override fun onStop() {
     super.onStop()

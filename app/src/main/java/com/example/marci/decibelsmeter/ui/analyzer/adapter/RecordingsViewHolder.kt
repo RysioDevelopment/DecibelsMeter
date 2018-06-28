@@ -1,12 +1,11 @@
 package com.example.marci.decibelsmeter.ui.analyzer.adapter
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.marci.decibelsmeter.R
-import com.example.marci.decibelsmeter.player_manager.PlayerManager
 import com.example.marci.decibelsmeter.ui.analyzer.viewmodel.RecordViewModel
 import kotlinx.android.synthetic.main.item_record.view.*
 
@@ -15,9 +14,8 @@ import kotlinx.android.synthetic.main.item_record.view.*
  */
 class RecordingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-  fun bind(record: RecordViewModel, playerManager: PlayerManager) {
+  fun bind(record: RecordViewModel) {
     with(itemView) {
-      var fileName = context.externalCacheDir.absolutePath
       recordMainNameTextView.text = record.mainRecordName
       leftSpeakerDecibelsTextView.text = context.getString(
           R.string.decibels,
@@ -27,25 +25,16 @@ class RecordingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
           R.string.decibels,
           record.rightSpeakerDecibels ?: 0
       )
+      if (record.leftSpeakerDecibels == null) {
+        leftPlayButton.visibility = View.INVISIBLE
+        leftRemoveButton.visibility = View.INVISIBLE
+      }
+      if (record.rightSpeakerDecibels == null) {
+        rightPlayButton.visibility = View.INVISIBLE
+        rightRemoveButton.visibility = View.INVISIBLE
+      }
       setUpSpeakersStatementTextView.text = record.getStatement()
-      leftPlayButton.setOnClickListener {
-        if (!rightPlayButton.isSelected) {
-          fileName += "/${record.mainRecordName}${context.getString(R.string.left_speaker_shortcut)}.3gp"
-          playerManager.onPlay(fileName)
-          it.isSelected = !it.isSelected
-        } else {
-          Toast.makeText(itemView.context, "Firstly stop other playing!", Toast.LENGTH_SHORT).show()
-        }
-      }
-      rightPlayButton.setOnClickListener {
-        if (!leftPlayButton.isSelected) {
-          fileName += "/${record.mainRecordName}${context.getString(R.string.right_speaker_shortcut)}.3gp"
-          playerManager.onPlay(fileName)
-          it.isSelected = !it.isSelected
-        } else {
-          Toast.makeText(itemView.context, "Firstly stop other playing!", Toast.LENGTH_SHORT).show()
-        }
-      }
+      speakersStateImageView.setImageDrawable(ContextCompat.getDrawable(context, record.imageView))
     }
   }
 

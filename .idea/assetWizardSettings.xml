@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_done_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_speaker_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,11 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_done" />
+                            <entry key="height" value="72" />
+                            <entry key="outputName" value="ic_speaker" />
+                            <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\marci" />
+                            <entry key="width" value="72" />
                           </map>
                         </option>
                       </PersistentState>
