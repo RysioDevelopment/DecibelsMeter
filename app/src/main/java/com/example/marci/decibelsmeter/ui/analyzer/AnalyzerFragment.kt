@@ -69,7 +69,12 @@ class AnalyzerFragment : Fragment() {
 
   private fun saveRecordingsDecibelsToSharedPrefsByName(recordName: String) {
     prefsManager.createPreferences(recordName).getAll().forEach {
-      recordingsDecibelsList.add(Pair(it.key, it.value.toString().toInt()))
+      val decibels: Int = try {
+        it.value.toString().toInt()
+      } catch (exception: NumberFormatException) {
+        0
+      }
+      recordingsDecibelsList.add(Pair(it.key, decibels))
     }
   }
 

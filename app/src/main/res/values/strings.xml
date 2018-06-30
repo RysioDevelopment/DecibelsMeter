@@ -17,7 +17,6 @@
     <string name="well_set_speakers">Well set loudspeakers</string>
     <string name="decibels">%d [dB]</string>
     <string name="missing_recording">Missing recording</string>
-    <string name="start_decibels_value">0 [dB]</string>
     <string name="remove">remove</string>
     <string name="firstly_stop_other_playing">Firstly stop other playing!</string>
     <string name="optimize">optimize</string>

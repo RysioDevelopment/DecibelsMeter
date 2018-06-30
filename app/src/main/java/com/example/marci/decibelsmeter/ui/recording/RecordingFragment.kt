@@ -111,7 +111,7 @@ class RecordingFragment : Fragment() {
           recorderManager.onRecord(mainFileName + speaker)
         }
         timerTextView.text = getString(R.string.start_time)
-        decibelsTextView.text = getString(R.string.start_decibels_value)
+        decibelsTextView.text = getString(R.string.decibels, 0)
         Toast.makeText(activity.baseContext, "Saved sound", Toast.LENGTH_SHORT).show()
       } else {
         Toast.makeText(activity.baseContext, "Firstly name your file", Toast.LENGTH_SHORT).show()
